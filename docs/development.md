@@ -41,6 +41,34 @@ How the web shell (`apps/vectorcraft-web/src/web.rs`) differs from desktop:
 - **No control server:** browsers can't listen on TCP. To automate the web build, drive headless Chrome with `--remote-debugging-port`.
 - Quick smoke test: `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --enable-unsafe-webgpu --screenshot=web.png --window-size=1440,900 --virtual-time-budget=15000 http://127.0.0.1:8766/` (headless Chrome on macOS gets a real WebGPU adapter).
 
+## Android build
+
+`apps/vectorcraft-android` runs the same `VectorcraftApp` on Android phones and tablets (arm64,
+Android 9 / API 28 and later) through eframe's NativeActivity runner. The renderer is wgpu: Vulkan
+where the device has it, GLES otherwise. The crate is a `cdylib` whose entry point is
+`android_main`; on any other target it builds empty, so the workspace's host checks don't need the
+NDK.
+
+```sh
+rustup target add aarch64-linux-android
+cargo install cargo-apk --locked
+export ANDROID_HOME=/path/to/Android/sdk ANDROID_NDK_ROOT=/path/to/Android/sdk/ndk/<version>
+cargo apk build -p vectorcraft-android --release   # target/release/apk/VectorCraft.apk
+adb install -r target/release/apk/VectorCraft.apk
+adb logcat -s vectorcraft                           # the app's log
+```
+
+Without the NDK, `cargo check -p vectorcraft-android --target aarch64-linux-android` still checks
+the Android code. The `Android` workflow (`.github/workflows/android.yml`) builds the APK on every
+change to the crate or the manifests and uploads it as the `vectorcraft-android` artifact. Release
+builds without a `[package.metadata.android.signing.release]` key are signed with the debug key:
+fine for side-loading, not for a store.
+
+How the Android shell (`apps/vectorcraft-android/src/android.rs`) differs from desktop: no control
+server and no system file dialogs yet (documents are read and written by path in the app's internal
+storage, where `ui.json`, Swatches, Graphic Styles, Libraries and Data Recovery live); touch arrives
+as egui pointer events; the interface is zoomed 125% for touch.
+
 ## Desktop graphics processor
 
 The canvas is rasterized on the CPU (`vectorcraft-render`, vello_cpu); the GPU (wgpu, through eframe) only composites the canvas texture and draws the UI, so any GPU that can show the window will do. The desktop app picks the window's adapter itself (`apps/vectorcraft/src/gpu.rs`, eframe's `native_adapter_selector`) and logs every adapter it found and the one it uses.

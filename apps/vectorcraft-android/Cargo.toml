@@ -1,0 +1,43 @@
+[package]
+name = "vectorcraft-android"
+description = "VectorCraft on Android phones and tablets (eframe NativeActivity, wgpu on Vulkan or GLES)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[lib]
+# Android loads the app as a shared library (`libvectorcraft_android.so`) from a NativeActivity.
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[target.'cfg(target_os = "android")'.dependencies]
+vectorcraft-engine = { workspace = true }
+vectorcraft-ui-egui = { workspace = true }
+egui = { workspace = true }
+eframe = { workspace = true, features = ["default_fonts", "wgpu", "android-native-activity"] }
+log = { workspace = true }
+serde_json = { workspace = true }
+# Logs go to logcat (`adb logcat -s vectorcraft`). MIT OR Apache-2.0.
+android_logger = { version = "0.15", default-features = false }
+# The `AndroidApp` handle the activity starts us with (the same winit eframe runs on).
+winit = { version = "0.30", default-features = false, features = ["android-native-activity"] }
+
+# `cargo apk build -p vectorcraft-android --release` (cargo-apk) reads this.
+[package.metadata.android]
+package = "ai.storyteller.vectorcraft"
+apk_name = "VectorCraft"
+build_targets = ["aarch64-linux-android"]
+
+[package.metadata.android.sdk]
+min_sdk_version = 28
+target_sdk_version = 34
+
+[package.metadata.android.application]
+label = "VectorCraft"
+
+[package.metadata.android.application.activity]
+config_changes = "orientation|screenSize|screenLayout|keyboardHidden|keyboard|navigation|uiMode|density"

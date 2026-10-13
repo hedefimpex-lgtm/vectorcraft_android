@@ -55,6 +55,7 @@ pub const TABLE: &[(&str, Class)] = &[
     ("vectorcraft", Class::Exempt),
     ("cli", Class::Exempt),
     ("web", Class::Exempt),
+    ("android", Class::Exempt),
     ("xtask", Class::Exempt),
     // Crates added later (append-only).
     ("cad", Class::Layer(3)),
@@ -333,7 +334,7 @@ mod tests {
 
     #[test]
     fn apps_and_xtask_exempt() {
-        for app in ["vectorcraft", "vectorcraft-cli", "vectorcraft-web", "xtask"] {
+        for app in ["vectorcraft", "vectorcraft-cli", "vectorcraft-web", "vectorcraft-android", "xtask"] {
             assert!(check(&[c(app, &[("egui", Normal, false), ("vectorcraft-ui-egui", Normal, true)])]).is_empty());
         }
     }
