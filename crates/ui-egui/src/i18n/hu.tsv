@@ -4595,3 +4595,9 @@ theme	Appearance	Kinézet
 @msg	the file stopped being read (please report this bug)	a fájl beolvasása megszakadt (kérjük, jelentsd ezt a hibát)
 	Concentric Dividers:	Koncentrikus osztók:
 	Radial Dividers:	Sugárirányú osztók:
+	New Folder	Új mappa
+	Up One Level	Egy szinttel feljebb
+	Menu	Menü
+	Allow Access	Hozzáférés engedélyezése
+	This folder can't be read without access to all files.	Ez a mappa nem olvasható az összes fájlhoz való hozzáférés nélkül.
+	Touch Layout	Érintéses elrendezés

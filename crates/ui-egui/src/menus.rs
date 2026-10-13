@@ -240,6 +240,12 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
     ("view.snapToPoint", "Snap to Point", "Cmd+Alt+'", "{}"),
     ("view.presentation", "Presentation Mode", "Shift+F", "{}"),
     ("view.screenMode", "Screen Mode", "F", "{mode?: 0..2} (no param cycles)"),
+    (
+        "view.touchLayout",
+        "Touch Layout",
+        "",
+        "{on?: bool} the layout for touch screens: big buttons along the top (menus, Undo, Redo, Save, the selection's commands, panels) and the tools along the bottom; turned on it hides the panels until its Panels button shows them; toggles when omitted; returns the new state",
+    ),
     ("view.rotateReset", "Reset Rotate View", "Cmd+Shift+1", "{}"),
     ("window.control", "Control", "", "{}"),
     ("window.toolbar", "Tools", "", "{}"),
@@ -1131,6 +1137,16 @@ pub fn run_ui_command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<R
             }
             Ok(Value::Null)
         }
+        "view.touchLayout" => opt_bool(p, "on").map(|on| {
+            let on = on.unwrap_or(!app.ui.touch_layout);
+            if on && !app.ui.touch_layout {
+                // A phone has no room beside the art: the panels open from the top bar instead.
+                app.ui.dock = false;
+                app.ui.control_bar = false;
+            }
+            app.ui.touch_layout = on;
+            json!(on)
+        }),
         "window.control" => flag(&mut app.ui.control_bar),
         "window.toolbar" => flag(&mut app.ui.toolbar),
         "window.toolbarColumns" => opt_bool(p, "double").map(|on| {
@@ -1499,6 +1515,7 @@ pub fn checked(app: &VectorcraftApp, id: &str, p: &Value) -> Option<bool> {
         "view.snapToGrid" => v.snap_to_grid,
         "view.snapToPoint" => v.snap_to_point,
         "view.rulers" => v.rulers,
+        "view.touchLayout" => app.ui.touch_layout,
         "window.control" => app.ui.control_bar,
         "window.toolbar" => app.ui.toolbar,
         "window.toolbarAdvanced" => app.ui.toolbar_advanced,
@@ -2503,6 +2520,7 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
                         cp("Full Screen Mode", "view.screenMode", json!({"mode": 2})),
                     ],
                 ),
+                c("Touch Layout", "view.touchLayout"),
                 Sep,
                 sub(
                     "Proof Setup",
@@ -2871,6 +2889,17 @@ pub fn menu_bar(app: &mut VectorcraftApp, ui: &mut egui::Ui) -> f32 {
         }
     }
     end
+}
+
+/// The menu bar's menus as one menu of submenus (View › Touch Layout's Menu button): the item
+/// chosen goes in `clicked`.
+pub(crate) fn touch_menus(app: &VectorcraftApp, ui: &mut egui::Ui, clicked: &mut Option<(String, Value)>) {
+    for (title, items) in menu_tree_named(app.session.prefs.font_names_in_english) {
+        if title == "VectorCraft" {
+            continue;
+        }
+        ui.menu_button(tl!(title), |ui| menu_body(app, ui, &items, clicked));
+    }
 }
 
 /// Whether the pointer at `p` is really over the menu title `title`: inside it, and with no

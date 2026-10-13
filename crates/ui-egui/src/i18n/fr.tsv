@@ -4205,3 +4205,9 @@ lighting	Light	Lumière
 @msg	the file stopped being read (please report this bug)	la lecture du fichier s’est interrompue (veuillez signaler ce bogue)
 	Concentric Dividers:	Divisions concentriques :
 	Radial Dividers:	Divisions radiales :
+	New Folder	Nouveau dossier
+	Up One Level	Niveau supérieur
+	Menu	Menu
+	Allow Access	Autoriser l’accès
+	This folder can't be read without access to all files.	Ce dossier ne peut pas être lu sans l’accès à tous les fichiers.
+	Touch Layout	Disposition tactile

@@ -4197,3 +4197,9 @@ lighting	Light	Luce
 @msg	the file stopped being read (please report this bug)	la lettura del file si è interrotta (segnala questo errore)
 	Concentric Dividers:	Divisori concentrici:
 	Radial Dividers:	Divisori radiali:
+	New Folder	Nuova cartella
+	Up One Level	Livello superiore
+	Menu	Menu
+	Allow Access	Consenti accesso
+	This folder can't be read without access to all files.	Questa cartella non può essere letta senza l’accesso a tutti i file.
+	Touch Layout	Layout touch

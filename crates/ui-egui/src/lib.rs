@@ -25,6 +25,7 @@ pub mod cursors;
 pub mod dialogs;
 pub mod dock;
 mod edit_toolbar;
+pub mod file_browser;
 pub mod find_font;
 pub mod floating;
 pub mod font_menu;
@@ -56,6 +57,7 @@ pub mod thumb_worker;
 pub mod titlebar;
 pub mod toolbar;
 mod touch;
+mod touch_layout;
 mod ui_fonts;
 pub mod unsaved;
 pub mod widgets;
@@ -1219,21 +1221,33 @@ impl VectorcraftApp {
         font_menu::end_stale_preview(self, &ctx);
         floating::track(self, &ctx);
         let t = theme::Tokens::get(&ctx);
-        if self.ui.screen_mode < 2 {
-            chrome::app_bar(self, ui);
+        if self.ui.touch_layout {
+            // Phones and tablets: two bars of big buttons instead of the desktop chrome.
+            touch_layout::top_bar(self, ui);
             if self.ui.control_bar {
                 chrome::control_bar(self, ui);
             }
-        }
-        if self.ui.status_bar && self.ui.screen_mode < 3 {
-            chrome::status_bar(self, ui);
-            chrome::hint_bar(self, ui);
-        }
-        if self.ui.toolbar && self.ui.screen_mode < 3 {
-            toolbar::show(self, ui);
-        }
-        if self.ui.dock && self.ui.screen_mode < 3 {
-            dock::show(self, ui);
+            touch_layout::tool_strip(self, ui);
+            if self.ui.dock {
+                dock::show(self, ui);
+            }
+        } else {
+            if self.ui.screen_mode < 2 {
+                chrome::app_bar(self, ui);
+                if self.ui.control_bar {
+                    chrome::control_bar(self, ui);
+                }
+            }
+            if self.ui.status_bar && self.ui.screen_mode < 3 {
+                chrome::status_bar(self, ui);
+                chrome::hint_bar(self, ui);
+            }
+            if self.ui.toolbar && self.ui.screen_mode < 3 {
+                toolbar::show(self, ui);
+            }
+            if self.ui.dock && self.ui.screen_mode < 3 {
+                dock::show(self, ui);
+            }
         }
         egui::CentralPanel::default().frame(egui::Frame::NONE.fill(t.pasteboard)).show(ui, |ui| {
             if self.ui.screen_mode < 3 {

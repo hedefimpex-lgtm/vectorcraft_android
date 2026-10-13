@@ -4177,3 +4177,9 @@ lighting	Light	Світло
 @msg	the file stopped being read (please report this bug)	читання файлу перервалося (будь ласка, повідомте про цю помилку)
 	Concentric Dividers:	Концентричні розділювачі:
 	Radial Dividers:	Радіальні розділювачі:
+	New Folder	Нова папка
+	Up One Level	На рівень вище
+	Menu	Меню
+	Allow Access	Дозволити доступ
+	This folder can't be read without access to all files.	Цю папку не можна прочитати без доступу до всіх файлів.
+	Touch Layout	Сенсорний макет

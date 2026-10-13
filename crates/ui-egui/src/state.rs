@@ -300,6 +300,9 @@ pub struct UiState {
     pub toolbar_pos: Option<[f32; 2]>,
     pub status_bar: bool,
     pub dock: bool,
+    /// View › Touch Layout (`view.touchLayout`): big buttons along the top and the tools along the
+    /// bottom, for phones and tablets ([`crate::touch_layout`]).
+    pub touch_layout: bool,
     pub view: ViewFlags,
     pub dialog: Option<Dialog>,
     /// Toolbar group whose flyout is open.
@@ -619,6 +622,7 @@ impl Default for UiState {
             toolbar_pos: None,
             status_bar: true,
             dock: true,
+            touch_layout: false,
             view: ViewFlags::default(),
             dialog: None,
             flyout: None,

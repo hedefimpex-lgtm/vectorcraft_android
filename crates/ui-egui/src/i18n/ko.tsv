@@ -4161,3 +4161,9 @@ lighting	Light	광원
 @msg	the file stopped being read (please report this bug)	파일 읽기가 중단되었습니다(이 버그를 신고해 주세요)
 	Concentric Dividers:	동심원 구분선:
 	Radial Dividers:	방사형 구분선:
+	New Folder	새 폴더
+	Up One Level	상위 폴더로
+	Menu	메뉴
+	Allow Access	액세스 허용
+	This folder can't be read without access to all files.	모든 파일에 대한 액세스 권한이 없으면 이 폴더를 읽을 수 없습니다.
+	Touch Layout	터치 레이아웃

@@ -4152,3 +4152,9 @@ theme	Appearance	Erscheinungsbild
 @msg	the file stopped being read (please report this bug)	das Lesen der Datei wurde abgebrochen (bitte melden Sie diesen Fehler)
 	Concentric Dividers:	Konzentrische Trennlinien:
 	Radial Dividers:	Radiale Trennlinien:
+	New Folder	Neuer Ordner
+	Up One Level	Eine Ebene nach oben
+	Menu	Menü
+	Allow Access	Zugriff erlauben
+	This folder can't be read without access to all files.	Dieser Ordner kann ohne Zugriff auf alle Dateien nicht gelesen werden.
+	Touch Layout	Touch-Layout

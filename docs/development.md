@@ -66,10 +66,29 @@ signs release builds only with a key set in `CARGO_APK_RELEASE_KEYSTORE` and
 workflow makes a throwaway one with `keytool`, fine for side-loading, not for a store. Locally,
 `cargo apk build -p vectorcraft-android` (debug) signs with `~/.android/debug.keystore`.
 
-How the Android shell (`apps/vectorcraft-android/src/android.rs`) differs from desktop: no control
-server and no system file dialogs yet (documents are read and written by path in the app's internal
-storage, where `ui.json`, Swatches, Graphic Styles, Libraries and Data Recovery live); touch arrives
-as egui pointer events; the interface is zoomed 125% for touch.
+How the Android shell (`apps/vectorcraft-android/src/android.rs`) differs from desktop:
+
+- **File dialogs** are drawn in the window: `vectorcraft_ui_egui::file_browser::FileBrowser`,
+  handed to the app as `Services::start_pick` and answering like a system dialog shown off the UI
+  thread (`picks`). Places: Documents/VectorCraft, Documents, Download, Pictures, the storage root
+  and the app's own folder. Open picks a file with one tap, Place ticks several, Save takes a name
+  (the chosen type's extension is added when it has none) and asks once more before replacing a
+  file, Folder picks the folder shown; New Folder makes one.
+- **Storage access** (`storage.rs`, JNI): Android 11+ needs "All files access"
+  (`MANAGE_EXTERNAL_STORAGE`), granted on the settings page the dialog's Allow Access button opens;
+  Android 9 shows the storage permission dialog. Without it only the app's own folder lists. (The
+  permission keeps the APK off Google Play's default policy: side-loading is the target for now.)
+- **Touch Layout** (`view.touchLayout`, View menu; `crates/ui-egui/src/touch_layout.rs`): the app
+  starts in it. A top bar of 44 pt buttons (all menus under one Menu button, the document name,
+  Open, Save, Undo, Redo, Fit Artboard, the selection's commands under More, Panels to show the
+  dock) and the tools along the bottom (a long press lists a group's tools). Desktop users can turn
+  it on for tablets too.
+- **Gestures**: pinch zooms, two fingers pan, two- and three-finger taps undo and redo (as on
+  desktop touch screens); a long press on the art opens its context menu.
+- **Back** closes the file dialog, else acts as Escape (menus, dialogs, the tool's path); it never
+  leaves the app.
+- **Settings** (`ui.json` in internal storage) are saved whenever the app leaves the screen.
+- The interface is zoomed 125%; no control server.
 
 ## Desktop graphics processor
 

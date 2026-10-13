@@ -4501,3 +4501,9 @@ mark-style	Japanese	Japonské
 @msg	the file stopped being read (please report this bug)	čtení souboru se přerušilo (nahlaste prosím tuto chybu)
 	Concentric Dividers:	Soustředné dělicí čáry:
 	Radial Dividers:	Radiální dělicí čáry:
+	New Folder	Nová složka
+	Up One Level	O úroveň výš
+	Menu	Nabídka
+	Allow Access	Povolit přístup
+	This folder can't be read without access to all files.	Tuto složku nelze číst bez přístupu ke všem souborům.
+	Touch Layout	Dotykové rozvržení

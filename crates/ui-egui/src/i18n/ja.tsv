@@ -4191,3 +4191,9 @@ lighting	Light	ライト
 @msg	the file stopped being read (please report this bug)	ファイルの読み込みが中断されました (このバグを報告してください)
 	Concentric Dividers:	同心円の分割線:
 	Radial Dividers:	放射状の分割線:
+	New Folder	新規フォルダー
+	Up One Level	1 つ上の階層へ
+	Menu	メニュー
+	Allow Access	アクセスを許可
+	This folder can't be read without access to all files.	このフォルダーは、すべてのファイルへのアクセスがないと読み込めません。
+	Touch Layout	タッチレイアウト

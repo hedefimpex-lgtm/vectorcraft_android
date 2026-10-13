@@ -4193,3 +4193,9 @@ lighting	Light	Свет
 @msg	the file stopped being read (please report this bug)	чтение файла прервалось (пожалуйста, сообщите об этой ошибке)
 	Concentric Dividers:	Концентрические разделители:
 	Radial Dividers:	Радиальные разделители:
+	New Folder	Новая папка
+	Up One Level	На уровень выше
+	Menu	Меню
+	Allow Access	Разрешить доступ
+	This folder can't be read without access to all files.	Эту папку нельзя прочитать без доступа ко всем файлам.
+	Touch Layout	Сенсорный макет
