@@ -45,6 +45,13 @@ jobs:
         run: |
           export ANDROID_HOME="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
           export ANDROID_NDK_ROOT="$ANDROID_NDK_LATEST_HOME"
+          # cargo-apk signs release builds only with a configured key: a throwaway one for
+          # side-loading (a store release sets its own through these variables).
+          keytool -genkeypair -v -keystore "$RUNNER_TEMP/release.keystore" -alias androiddebugkey \
+            -storepass android -keypass android -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=VectorCraft side-load,O=VectorCraft"
+          export CARGO_APK_RELEASE_KEYSTORE="$RUNNER_TEMP/release.keystore"
+          export CARGO_APK_RELEASE_KEYSTORE_PASSWORD=android
           cargo apk build -p vectorcraft-android --release
           mkdir -p dist/android
           find target/release/apk -name '*.apk' -exec cp {} dist/android/ \;

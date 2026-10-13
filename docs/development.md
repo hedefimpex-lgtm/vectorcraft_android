@@ -60,9 +60,11 @@ adb logcat -s vectorcraft                           # the app's log
 
 Without the NDK, `cargo check -p vectorcraft-android --target aarch64-linux-android` still checks
 the Android code. The `Android` workflow (`.github/workflows/android.yml`) builds the APK on every
-change to the crate or the manifests and uploads it as the `vectorcraft-android` artifact. Release
-builds without a `[package.metadata.android.signing.release]` key are signed with the debug key:
-fine for side-loading, not for a store.
+change to the crate or the manifests and uploads it as the `vectorcraft-android` artifact. cargo-apk
+signs release builds only with a key set in `CARGO_APK_RELEASE_KEYSTORE` and
+`CARGO_APK_RELEASE_KEYSTORE_PASSWORD` (or `[package.metadata.android.signing.release]`); the
+workflow makes a throwaway one with `keytool`, fine for side-loading, not for a store. Locally,
+`cargo apk build -p vectorcraft-android` (debug) signs with `~/.android/debug.keystore`.
 
 How the Android shell (`apps/vectorcraft-android/src/android.rs`) differs from desktop: no control
 server and no system file dialogs yet (documents are read and written by path in the app's internal
